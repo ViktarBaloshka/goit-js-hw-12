@@ -11,17 +11,16 @@
 
 <body>
   <form class="search-form js-search-form">
-    <input class="search-input" type="text" name="searchtext" placeholder="Search images..." />
+    <input class="search-input" type="text" name="searchtext" placeholder="Search images..." required />
     <button class="search-button" type="submit">Search</button>
   </form>
-
-
   <div class="loader-wrapper">
     <span class="loader js-loader"></span>
   </div>
   <ul class="gallery"></ul>
-
-
+  <div class="load-more-wrapper">
+    <button class="load-more-button is-hidden js-loader-more" type="submit">Load more</button>
+  </div>
   <script type="module" defer src="./main.js"></script>
 </body>
 

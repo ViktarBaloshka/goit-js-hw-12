@@ -3,11 +3,12 @@ axios.defaults.baseURL = 'https://pixabay.com/api/';
 
 import { params } from './default-params';
 
-export async function queryHttp(query) {
+export async function queryHttp(query, page) {
   const { data } = await axios.get('', {
     params: {
-      ...params,
       q: query,
+      page,
+      ...params,
     },
   });
   return data;

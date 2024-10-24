@@ -64,6 +64,11 @@ async function onClickLoadMore() {
   try {
     const data = await queryHttp(query, currentPage);
     refs.gallery.insertAdjacentHTML('beforeend', renderPicture(data.hits));
+    const domRect = refs.gallery.getBoundingClientRect().height;
+    window.scrollBy({
+      top: Math.ceil(domRect, 2),
+      behavior: 'smooth',
+    });
     lightbox();
     if (currentPage >= totalPages) {
       refs.loadMoreBtn.classList.add('is-hidden');
@@ -84,7 +89,6 @@ function fetchError() {
     message:
       'Sorry, there are no images matching your search query. Please try again!',
     position: 'topRight',
-    timeout: '3000',
   });
   refs.loadMoreBtn.classList.add('is-hidden');
 }
@@ -94,7 +98,6 @@ function fetchWarning() {
     title: 'Warning',
     message: "We're sorry, but you've reached the end of search results.",
     position: 'topRight',
-    timeout: '3000',
   });
   refs.loadMoreBtn.classList.add('is-hidden');
 }

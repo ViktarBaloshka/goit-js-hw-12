@@ -61,14 +61,14 @@ async function onClickLoadMore() {
   currentPage += 1;
   refs.loader.classList.add('is-hidden');
   refs.loadMoreBtn.classList.add('is-hidden');
+  let domRect = document
+    .querySelector('.gallery-card')
+    .getBoundingClientRect().height;
+
   try {
     const data = await queryHttp(query, currentPage);
+
     refs.gallery.insertAdjacentHTML('beforeend', renderPicture(data.hits));
-    const domRect = refs.gallery.getBoundingClientRect().height;
-    window.scrollBy({
-      top: Math.ceil(domRect, 2),
-      behavior: 'smooth',
-    });
     lightbox();
     if (currentPage >= totalPages) {
       refs.loadMoreBtn.classList.add('is-hidden');
@@ -76,6 +76,10 @@ async function onClickLoadMore() {
     } else {
       refs.loadMoreBtn.classList.remove('is-hidden');
     }
+    window.scrollBy({
+      top: Math.ceil(domRect * 2),
+      behavior: 'smooth',
+    });
   } catch (error) {
     fetchError();
   } finally {

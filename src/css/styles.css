@@ -61,10 +61,13 @@ ul {
   cursor: pointer;
 }
 
-.load-more-button.is-hidden,
-.loader.isVisible {
+.load-more-button.is-hidden {
   opacity: 1;
   visibility: hidden;
+}
+.loader.isVisible {
+  opacity: 1;
+  visibility: visible;
 }
 
 .search-button:hover,

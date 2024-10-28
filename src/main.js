@@ -34,13 +34,12 @@ async function onFormSubmit(evt) {
   query = searchtext.value.trim();
 
   refs.gallery.innerHTML = '';
-  refs.loader.classList.add('is-hidden');
+  refs.loader.classList.add('isVisible');
   refs.loadMoreBtn.classList.add('is-hidden');
 
   try {
     const data = await queryHttp(query, currentPage);
     totalPages = Math.ceil(data.totalHits / PER_PAGE);
-
     if (query === '' || data.hits.length === 0) {
       fetchError();
     } else {
@@ -52,22 +51,20 @@ async function onFormSubmit(evt) {
     fetchError();
     refs.loadMoreBtn.classList.add('is-hidden');
   } finally {
-    refs.loader.classList.remove('is-hidden');
+    refs.loader.classList.remove('isVisible');
     refs.searchForm.reset();
   }
 }
 
 async function onClickLoadMore() {
   currentPage += 1;
-  refs.loader.classList.add('is-hidden');
+  refs.loader.classList.add('isVisible');
   refs.loadMoreBtn.classList.add('is-hidden');
   let domRect = document
     .querySelector('.gallery-card')
     .getBoundingClientRect().height;
-
   try {
     const data = await queryHttp(query, currentPage);
-
     refs.gallery.insertAdjacentHTML('beforeend', renderPicture(data.hits));
     lightbox();
     if (currentPage >= totalPages) {
@@ -83,7 +80,7 @@ async function onClickLoadMore() {
   } catch (error) {
     fetchError();
   } finally {
-    refs.loader.classList.remove('is-hidden');
+    refs.loader.classList.remove('isVisible');
   }
 }
 

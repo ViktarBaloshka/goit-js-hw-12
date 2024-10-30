@@ -33,6 +33,9 @@ async function onFormSubmit(evt) {
   const { searchtext } = form.elements;
   query = searchtext.value.trim();
 
+  if (query === '') {
+    return fetchInfo();
+  }
   refs.gallery.innerHTML = '';
   refs.loader.classList.add('isVisible');
   refs.loadMoreBtn.classList.add('is-hidden');
@@ -40,7 +43,7 @@ async function onFormSubmit(evt) {
   try {
     const data = await queryHttp(query, currentPage);
     totalPages = Math.ceil(data.totalHits / PER_PAGE);
-    if (query === '' || data.hits.length === 0) {
+    if (data.hits.length === 0) {
       fetchError();
     } else {
       refs.gallery.insertAdjacentHTML('beforeend', renderPicture(data.hits));
@@ -86,19 +89,28 @@ async function onClickLoadMore() {
 
 function fetchError() {
   iziToast.error({
-    title: 'Error',
     message:
       'Sorry, there are no images matching your search query. Please try again!',
     position: 'topRight',
+    timeout: 2000,
   });
   refs.loadMoreBtn.classList.add('is-hidden');
 }
 
 function fetchWarning() {
   iziToast.warning({
-    title: 'Warning',
     message: "We're sorry, but you've reached the end of search results.",
     position: 'topRight',
+    timeout: 2000,
+  });
+  refs.loadMoreBtn.classList.add('is-hidden');
+}
+
+function fetchInfo() {
+  iziToast.info({
+    message: 'Search query cannot be empty. Please enter a search term.',
+    position: 'topRight',
+    timeout: 2000,
   });
   refs.loadMoreBtn.classList.add('is-hidden');
 }

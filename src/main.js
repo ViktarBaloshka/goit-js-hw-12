@@ -12,6 +12,7 @@ const refs = {
   gallery: document.querySelector('.gallery'),
   loader: document.querySelector('.js-loader'),
   loadMoreBtn: document.querySelector('.js-loader-more-btn'),
+  goTopBtn: document.querySelector('.go-top-btn'),
 };
 
 let currentPage = 1;
@@ -20,6 +21,9 @@ let totalPages = 0;
 
 refs.searchForm.addEventListener('submit', onFormSubmit);
 refs.loadMoreBtn.addEventListener('click', onClickLoadMore);
+
+window.addEventListener('scroll', checkHeight);
+refs.goTopBtn.addEventListener('click', onClickTopBtn);
 
 function lightbox() {
   const lightbox = new SimpleLightbox('.gallery a', {});
@@ -85,6 +89,21 @@ async function onClickLoadMore() {
   } finally {
     refs.loader.classList.remove('isVisible');
   }
+}
+
+function checkHeight() {
+  if (window.scrollY > 500) {
+    refs.goTopBtn.style.visibility = 'visible';
+  } else {
+    refs.goTopBtn.style.visibility = 'hidden';
+  }
+}
+
+function onClickTopBtn() {
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth',
+  });
 }
 
 function fetchError() {
